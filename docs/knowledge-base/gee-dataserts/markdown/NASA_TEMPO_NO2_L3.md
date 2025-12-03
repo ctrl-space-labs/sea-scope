@@ -1,0 +1,265 @@
+
+
+
+
+* [Home](https://developers.google.com/)
+* [Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets)
+* [All datasets](https://developers.google.com/earth-engine/datasets/catalog)
+
+
+
+
+
+ 
+ 
+ Send feedback
+ 
+ 
+
+TEMPO gridded NO2 tropospheric and stratospheric columns V03
+
+
+ 
+ Stay organized with collections
+ 
+
+ 
+ Save and categorize content based on your preferences.
+==============================================================================================================================================================
+
+
+
+
+
+
+
+
+Dataset Availability
+2023\-08\-01T00:00:00Z–2025\-07\-16T12:33:53Z
+Dataset Provider
+
+
+[NASA ASDC](https://asdc.larc.nasa.gov/)
+
+
+
+Earth Engine Snippet
+
+
+`ee.ImageCollection("NASA/TEMPO/NO2_L3")` 
+[open\_in\_new](https://code.earthengine.google.com/?scriptPath=Examples:Datasets/NASA/NASA_TEMPO_NO2_L3)
+
+
+
+
+
+Tags
+
+
+[air\-quality](/earth-engine/datasets/tags/air-quality)
+[nasa](/earth-engine/datasets/tags/nasa)
+[nitrogen\-dioxide](/earth-engine/datasets/tags/nitrogen-dioxide)
+[pollution](/earth-engine/datasets/tags/pollution)
+[satellite\-imagery](/earth-engine/datasets/tags/satellite-imagery)
+[tropomi](/earth-engine/datasets/tags/tropomi)
+
+
+
+
+
+
+
+
+#### Description
+
+
+
+Nitrogen dioxide Level 3 files provide trace gas information on a
+regular grid covering the TEMPO field of regard for nominal TEMPO
+observations. Level 3 files are derived by combining information from
+all Level 2 files constituting a TEMPO East\-West scan cycle. The
+rasters contain information on tropospheric, stratospheric and total
+nitrogen dioxide vertical columns, ancillary data used in air mass
+factor and stratospheric/tropospheric separation calculations, and
+retrieval quality flags. The re\-gridding algorithm uses an area\-weighted
+approach.
+
+
+* A version of this dataset with QA filters applied is available as [NASA/TEMPO/NO2\_L3\_QA](/earth-engine/datasets/catalog/NASA_TEMPO_NO2_L3_QA)
+* [General Documentation](https://asdc.larc.nasa.gov/documents/tempo/guide/TEMPO_Level-2-3_trace_gas_clouds_user_guide_V1.2.pdf)
+
+
+
+
+
+### Bands
+
+
+
+**Pixel Size**
+  
+2226 meters
+
+
+
+**Bands**
+
+
+
+
+| Name | Units | Description |
+| --- | --- | --- |
+| `weight` | km^2 | Sum of Level 2 pixel overlap areas. Represents the weighting factor for each grid cell, indicating the fraction of the grid cell area with valid data. |
+| `vertical_column_troposphere` | molecules/cm^2 | NO2 troposphere vertical column |
+| `vertical_column_troposphere_uncertainty` | molecules/cm^2 | NO2 troposphere vertical column uncertainty |
+| `vertical_column_stratosphere` | molecules/cm^2 | NO2 stratosphere vertical column uncertainty |
+| `main_data_quality_flag` | Dimensionless | Main data quality flag. Provides an overall assessment of the data quality |
+| `num_vertical_column_troposphere_samples` | Dimensionless | Number of Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column. |
+| `min_vertical_column_troposphere_sample` | molecules/cm^2 | Smallest Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column. |
+| `max_vertical_column_troposphere_sample` | molecules/cm^2 | Largest Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column. |
+| `num_vertical_column_troposphere_uncertainty_samples` | Dimensionless | Number of Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column uncertainty. |
+| `min_vertical_column_troposphere_uncertainty_sample` | molecules/cm^2 | Smallest Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column uncertainty. |
+| `max_vertical_column_troposphere_uncertainty_sample` | molecules/cm^2 | Largest Level 2 pixel values contributing to Level 3 grid for the tropospheric vertical column uncertainty. |
+| `num_vertical_column_stratosphere_samples` | Dimensionless | Number of Level 2 pixel values contributing to Level 3 grid for the stratospheric vertical column. |
+| `min_vertical_column_stratosphere_sample` | molecules/cm^2 | Smallest Level 2 pixel values contributing to Level 3 grid for the stratospheric vertical column. |
+| `max_vertical_column_stratosphere_sample` | molecules/cm^2 | Largest Level 2 pixel values contributing to Level 3 grid for the stratospheric vertical column. |
+| `num_vertical_column_total_samples` | Dimensionless | Number of Level 2 pixel values contributing to Level 3 grid for the total vertical column. |
+| `min_vertical_column_total_sample` | molecules/cm^2 | Smallest Level 2 pixel values contributing to Level 3 grid for the total vertical column. |
+| `max_vertical_column_total_sample` | molecules/cm^2 | Largest Level 2 pixel values contributing to Level 3 grid for the total vertical column. |
+| `solar_zenith_angle` | deg | Solar zenith angle at pixel center |
+| `viewing_zenith_angle` | deg | Viewing zenith angle at pixel center |
+| `relative_azimuth_angle` | deg | Relative azimuth angle at pixel center |
+| `vertical_column_total` | molecules/cm^2 | NO2 vertical column |
+| `vertical_column_total_uncertainty` | molecules/cm^2 | NO2 vertical column uncertainty |
+| `surface_pressure` | hPa | Surface pressure |
+| `terrain_height` | m | Terrain height |
+| `snow_ice_fraction` | Dimensionless | Fraction of pixel area covered by snow and/or ice |
+| `fitted_slant_column` | molecules/cm^2 | NO2 fitted slant column |
+| `fitted_slant_column_uncertainty` | molecules/cm^2 | NO2 fitted slant column uncertainty |
+| `albedo` | Dimensionless | Surface albedo |
+| `tropopause_pressure` | hPa | Tropopause pressure |
+| `amf_total` | Dimensionless | NO2 air mass factor |
+| `eff_cloud_fraction` | Dimensionless | Effective cloud fraction |
+| `amf_cloud_fraction` | Dimensionless | Cloud radiance fraction for AMF calculation |
+| `amf_cloud_pressure` | hPa | Cloud pressure for AMF calculation |
+| `amf_troposphere` | Dimensionless | NO2 troposphere air mass factor |
+| `amf_stratosphere` | Dimensionless | NO2 stratosphere air mass factor |
+
+
+**main\_data\_quality\_flag Class Table**
+
+
+
+
+| Value | Color | Description |
+| --- | --- | --- |
+| 0 | None | good |
+| 1 | None | suspect |
+| 2 | None | bad |
+
+
+
+
+### Terms of Use
+
+
+**Terms of Use**
+
+
+This dataset is in the public domain and is available
+without restriction on use and distribution. See [NASA's
+Earth Science Data \& Information Policy](https://www.earthdata.nasa.gov/engage/open-data-services-and-software/data-and-information-policy)
+for additional information.
+
+
+
+
+### Citations
+
+
+
+Citations:
+* NASA/LARC/SD/ASDC. (n.d.). TEMPO gridded NO2 tropospheric and
+stratospheric columns V03 (PROVISIONAL) \[Data set]. NASA Langley
+Atmospheric Science Data Center DAAC.
+Retrieved from https://doi.org/10\.5067/IS\-40e/TEMPO/NO2\_L3\.003
+
+
+
+
+
+### DOIs
+
+
+* [https://doi.org/10\.5067/IS\-40e/TEMPO/NO2\_L3\.003](https://doi.org/10.5067/IS-40e/TEMPO/NO2_L3.003)
+
+
+
+
+### Explore with Earth Engine
+
+
+**Important:** 
+ Earth Engine is a platform for petabyte\-scale scientific analysis and visualization of
+ geospatial datasets, both for public benefit and for business and government users.
+ Earth Engine is free to use for research, education, and nonprofit use. To get started, please
+ [register for Earth Engine access.](https://console.cloud.google.com/earth-engine)
+
+
+
+### Code Editor (JavaScript)
+
+
+
+```
+varcollection=ee.ImageCollection('NASA/TEMPO/NO2_L3')
+.filterDate('2024-04-01','2024-04-05')
+
+varvisParams={
+min:0,
+max:1.5e16,
+bands:['vertical_column_troposphere'],
+palette:[
+'000080','0000D9','4000FF','8000FF','0080FF',
+'00D9FF','80FFFF','FF8080','D90000','800000'
+]
+};
+Map.setCenter(-95.06,42.02,3)
+Map.addLayer(collection,visParams,'Tropospheric NO2')
+```
+
+
+
+[Open in Code Editor](https://code.earthengine.google.com/?scriptPath=Examples:Datasets/NASA/NASA_TEMPO_NO2_L3)
+
+
+[TEMPO gridded NO2 tropospheric and stratospheric columns V03](/earth-engine/datasets/catalog/NASA_TEMPO_NO2_L3)
+
+Nitrogen dioxide Level 3 files provide trace gas information on a regular grid covering the TEMPO field of regard for nominal TEMPO observations. Level 3 files are derived by combining information from all Level 2 files constituting a TEMPO East\-West scan cycle. The rasters contain information on tropospheric, stratospheric and …
+
+ NASA/TEMPO/NO2\_L3,
+ air\-quality,nasa,nitrogen\-dioxide,pollution,satellite\-imagery,tropomi
+
+2023\-08\-01T00:00:00Z/2025\-07\-16T12:33:53Z
+
+
+
+ \-90 \-180 90 180
+ 
+
+
+
+Google Earth Engine
+https://developers.google.com/earth\-engine/datasets
+
+* [https://doi.org/10\.5067/IS\-40e/TEMPO/NO2\_L3\.003](https://doi.org/https://asdc.larc.nasa.gov/)
+* [https://doi.org/10\.5067/IS\-40e/TEMPO/NO2\_L3\.003](https://doi.org/https://developers.google.com/earth-engine/datasets/catalog/NASA_TEMPO_NO2_L3)
+
+
+
+
+
+
+
+
+
