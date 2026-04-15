@@ -150,8 +150,9 @@ SeaScope assumes browser-based Earth Engine execution; server-side execution req
 For security and stability, the sandbox iframe should expose only the minimal API and communicate via structured messages.
 
 ## Credits
-- **Developed by**: Nationl kapodestrean and Ctrl+space Labs
-- **Funded by**: Enfield
+- **Developed by**: [Ctrl+Space Labs](https://www.ctrlspace.dev/) and the Laboratory of Environmental Physics–Meteorology of National and Kapodistrian University of Athens
+- **Funded by**: [Enfield](https://enfield-project.eu/)  
+  The ‘SeaScope: Explainable AI for EO-Driven Maritime Analysis & Monitoring’ action has received funding from the European Union, via oc1-2025-TIS-01 issued and implemented by the ENFIELD project, under the grant agreement No 101120657
 
 ![Enfield logo](images/enfield-logo.png)
 
