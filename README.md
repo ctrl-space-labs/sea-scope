@@ -156,4 +156,4 @@ For security and stability, the sandbox iframe should expose only the minimal AP
 ![Enfield logo](images/enfield-logo.png)
 
 ## License
-Add your license here.
+Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See [`LICENSE`](LICENSE).
