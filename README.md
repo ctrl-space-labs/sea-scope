@@ -62,7 +62,7 @@ flowchart TD
   ChatPanel -->|question| Backend -->|semantic_search| DB
   Backend -->|LLM_call| LLM
   Backend -->|tool_call: patch| EditorPanel
-  EditorPanel -->|Run (code + token + geometries)| Sandbox
+  EditorPanel -->|"Run: code + token + geometries"| Sandbox
   Sandbox -->|EE eval + tile requests| GEE
   Sandbox -->|postMessage: layers/logs/exports| MapPanel
   EditorPanel -->|save versions| Backend --> DB
