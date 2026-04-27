@@ -16,7 +16,11 @@ This evaluation benchmarks **13 LLMs** across **7 real-world remote-sensing case
 
 Each model–case-study combination was scored on three dimensions:
 
-- **Evaluation score (0–10):** A holistic quality rating of the generated GEE workflow — correctness, completeness, and adherence to the task requirements.
+- **Evaluation score (0–10):** A holistic quality rating of the generated GEE workflow. The evaluator used the following criteria:
+  - **Correctness & output**: whether the result matched the request and produced meaningful map output (no useful output after many messages → **0**).
+  - **Understanding & edit responsiveness**: whether the model understood the task and applied requested changes promptly (e.g., respecting a user polygon).
+  - **Code robustness**: frequency of syntax errors and whether fixes remained stable across turns (no repeated regressions).
+  - **Appropriate implementation**: light code inspection for correct dates, datasets, data types, and operations.
 - **Number of messages:** How many conversation turns were required before a satisfactory result (or failure) was reached. Fewer messages indicate a more autonomous, confident model.
 - **Succeed / Failed:** A binary judgment on whether the model ultimately completed the task.
 
