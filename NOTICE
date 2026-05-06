@@ -1,0 +1,20 @@
+Third-party and dataset documentation
+=======================================
+
+The directory `docs/knowledge-base/gee-datasets/markdown/` contains
+markdown pages describing Google Earth Engine (GEE) datasets and related
+geospatial products. These pages are derived from public Earth Engine dataset
+catalog material and provider documentation (including citations and terms of
+use as published by data owners).
+
+If you redistribute this repository:
+
+- Respect the **original license and terms** of each dataset and provider
+  cited in the relevant markdown file.
+- Treat this corpus as **reference documentation**, not a grant of rights to
+  the underlying data or commercial use beyond what each provider allows.
+- For authoritative, up-to-date descriptions, consult the official
+  [Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets).
+
+No warranty is made regarding completeness or legal suitability of the
+mirrored text for any particular jurisdiction or use case.

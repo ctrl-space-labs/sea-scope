@@ -158,3 +158,5 @@ For security and stability, the sandbox iframe should expose only the minimal AP
 
 ## License
 Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See [`LICENSE`](LICENSE).
+
+Dataset documentation in `docs/knowledge-base/` may include provider citations and terms; see [`NOTICE`](NOTICE). For vulnerability reporting and secret-scanning guidance for maintainers, see [`SECURITY.md`](SECURITY.md).

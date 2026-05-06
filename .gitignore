@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# JetBrains
+.idea/
+
+# Local env and secrets (never commit real values)
+.env
+.env.*
+!.env.example
+
+# Optional local tooling (e.g. downloaded scanners)
+.tools/
