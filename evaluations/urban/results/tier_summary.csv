@@ -1,0 +1,21 @@
+tier,model,rag_status,mean_rubric_a,mean_rubric_b,n
+Tier A — Fundamental EO Interactions,claude-haiku-4-5,With_RAG,8.6667,5.0000,3
+Tier A — Fundamental EO Interactions,claude-sonnet-4-6,With_RAG,9.6667,5.6667,3
+Tier A — Fundamental EO Interactions,gemini 3.1 pro,With_RAG,9.6667,6.0000,3
+Tier A — Fundamental EO Interactions,gemini 3.5 flash,With_RAG,10.0000,6.0000,3
+Tier A — Fundamental EO Interactions,gemma-4-31b-it,With_RAG,7.0000,4.0000,3
+Tier B — Aggregation / Completeness / Export,claude-haiku-4-5,With_RAG,8.0000,4.0000,2
+Tier B — Aggregation / Completeness / Export,claude-sonnet-4-6,With_RAG,9.0000,5.0000,2
+Tier B — Aggregation / Completeness / Export,gemini 3.1 pro,With_RAG,9.5000,6.0000,2
+Tier B — Aggregation / Completeness / Export,gemini 3.5 flash,With_RAG,10.0000,6.0000,2
+Tier B — Aggregation / Completeness / Export,gemma-4-31b-it,With_RAG,5.5000,2.0000,2
+Tier C — Thermal Remote Sensing Core,claude-haiku-4-5,With_RAG,7.6667,4.3333,3
+Tier C — Thermal Remote Sensing Core,claude-sonnet-4-6,With_RAG,9.0000,5.6667,3
+Tier C — Thermal Remote Sensing Core,gemini 3.1 pro,With_RAG,10.0000,5.6667,3
+Tier C — Thermal Remote Sensing Core,gemini 3.5 flash,With_RAG,9.6667,5.6667,3
+Tier C — Thermal Remote Sensing Core,gemma-4-31b-it,With_RAG,7.3333,4.6667,3
+Tier D — Urban Heat / Applied Analysis,claude-haiku-4-5,With_RAG,6.5000,3.5000,4
+Tier D — Urban Heat / Applied Analysis,claude-sonnet-4-6,With_RAG,8.7500,5.2500,4
+Tier D — Urban Heat / Applied Analysis,gemini 3.1 pro,With_RAG,8.7500,5.5000,4
+Tier D — Urban Heat / Applied Analysis,gemini 3.5 flash,With_RAG,8.7500,5.5000,4
+Tier D — Urban Heat / Applied Analysis,gemma-4-31b-it,With_RAG,8.5000,5.0000,4

@@ -1,0 +1,61 @@
+task_id,task_name,tier,model,rag_status,rubric_a_total,rubric_b_total,rubric_a_label,rubric_b_label
+T1,Dataset availability query,Tier A — Fundamental EO Interactions,claude-haiku-4-5,With_RAG,10.0,6.0,Strong,Strong
+T1,Dataset availability query,Tier A — Fundamental EO Interactions,claude-sonnet-4-6,With_RAG,10.0,6.0,Strong,Strong
+T1,Dataset availability query,Tier A — Fundamental EO Interactions,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T1,Dataset availability query,Tier A — Fundamental EO Interactions,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T1,Dataset availability query,Tier A — Fundamental EO Interactions,gemma-4-31b-it,With_RAG,9.0,5.0,Strong,Adequate
+T10,Urban heat vulnerability classification,Tier D — Urban Heat / Applied Analysis,claude-haiku-4-5,With_RAG,8.0,5.0,Partial,Adequate
+T10,Urban heat vulnerability classification,Tier D — Urban Heat / Applied Analysis,claude-sonnet-4-6,With_RAG,10.0,6.0,Strong,Strong
+T10,Urban heat vulnerability classification,Tier D — Urban Heat / Applied Analysis,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T10,Urban heat vulnerability classification,Tier D — Urban Heat / Applied Analysis,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T10,Urban heat vulnerability classification,Tier D — Urban Heat / Applied Analysis,gemma-4-31b-it,With_RAG,10.0,6.0,Strong,Strong
+T11,Green infrastructure cooling capacity,Tier D — Urban Heat / Applied Analysis,claude-haiku-4-5,With_RAG,5.0,4.0,Partial,Adequate
+T11,Green infrastructure cooling capacity,Tier D — Urban Heat / Applied Analysis,claude-sonnet-4-6,With_RAG,7.0,5.0,Partial,Adequate
+T11,Green infrastructure cooling capacity,Tier D — Urban Heat / Applied Analysis,gemini 3.1 pro,With_RAG,7.0,5.0,Partial,Adequate
+T11,Green infrastructure cooling capacity,Tier D — Urban Heat / Applied Analysis,gemini 3.5 flash,With_RAG,8.0,5.0,Partial,Adequate
+T11,Green infrastructure cooling capacity,Tier D — Urban Heat / Applied Analysis,gemma-4-31b-it,With_RAG,7.0,4.0,Partial,Adequate
+T12,SUHI intensity mapping,Tier D — Urban Heat / Applied Analysis,claude-haiku-4-5,With_RAG,10.0,4.0,Strong,Adequate
+T12,SUHI intensity mapping,Tier D — Urban Heat / Applied Analysis,claude-sonnet-4-6,With_RAG,10.0,5.0,Strong,Adequate
+T12,SUHI intensity mapping,Tier D — Urban Heat / Applied Analysis,gemini 3.1 pro,With_RAG,9.0,6.0,Strong,Strong
+T12,SUHI intensity mapping,Tier D — Urban Heat / Applied Analysis,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T12,SUHI intensity mapping,Tier D — Urban Heat / Applied Analysis,gemma-4-31b-it,With_RAG,9.0,5.0,Strong,Adequate
+T2,Cloud / QA masking and clean composite,Tier A — Fundamental EO Interactions,claude-haiku-4-5,With_RAG,7.0,5.0,Partial,Adequate
+T2,Cloud / QA masking and clean composite,Tier A — Fundamental EO Interactions,claude-sonnet-4-6,With_RAG,9.0,6.0,Strong,Strong
+T2,Cloud / QA masking and clean composite,Tier A — Fundamental EO Interactions,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T2,Cloud / QA masking and clean composite,Tier A — Fundamental EO Interactions,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T2,Cloud / QA masking and clean composite,Tier A — Fundamental EO Interactions,gemma-4-31b-it,With_RAG,7.0,5.0,Partial,Adequate
+T3,NDVI computation with spatial summary,Tier A — Fundamental EO Interactions,claude-haiku-4-5,With_RAG,9.0,4.0,Strong,Adequate
+T3,NDVI computation with spatial summary,Tier A — Fundamental EO Interactions,claude-sonnet-4-6,With_RAG,10.0,5.0,Strong,Adequate
+T3,NDVI computation with spatial summary,Tier A — Fundamental EO Interactions,gemini 3.1 pro,With_RAG,9.0,6.0,Strong,Strong
+T3,NDVI computation with spatial summary,Tier A — Fundamental EO Interactions,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T3,NDVI computation with spatial summary,Tier A — Fundamental EO Interactions,gemma-4-31b-it,With_RAG,5.0,2.0,Partial,Poor
+T4,Zonal statistics for NDVI / NDWI,Tier B — Aggregation / Completeness / Export,claude-haiku-4-5,With_RAG,8.0,3.0,Partial,Adequate
+T4,Zonal statistics for NDVI / NDWI,Tier B — Aggregation / Completeness / Export,claude-sonnet-4-6,With_RAG,9.0,5.0,Strong,Adequate
+T4,Zonal statistics for NDVI / NDWI,Tier B — Aggregation / Completeness / Export,gemini 3.1 pro,With_RAG,9.0,6.0,Strong,Strong
+T4,Zonal statistics for NDVI / NDWI,Tier B — Aggregation / Completeness / Export,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T4,Zonal statistics for NDVI / NDWI,Tier B — Aggregation / Completeness / Export,gemma-4-31b-it,With_RAG,4.0,1.0,Poor,Poor
+T5,Multi-year seasonal composite,Tier B — Aggregation / Completeness / Export,claude-haiku-4-5,With_RAG,8.0,5.0,Partial,Adequate
+T5,Multi-year seasonal composite,Tier B — Aggregation / Completeness / Export,claude-sonnet-4-6,With_RAG,9.0,5.0,Strong,Adequate
+T5,Multi-year seasonal composite,Tier B — Aggregation / Completeness / Export,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T5,Multi-year seasonal composite,Tier B — Aggregation / Completeness / Export,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T5,Multi-year seasonal composite,Tier B — Aggregation / Completeness / Export,gemma-4-31b-it,With_RAG,7.0,3.0,Partial,Adequate
+T6,Landsat LST mapping,Tier C — Thermal Remote Sensing Core,claude-haiku-4-5,With_RAG,7.0,4.0,Partial,Adequate
+T6,Landsat LST mapping,Tier C — Thermal Remote Sensing Core,claude-sonnet-4-6,With_RAG,10.0,5.0,Strong,Adequate
+T6,Landsat LST mapping,Tier C — Thermal Remote Sensing Core,gemini 3.1 pro,With_RAG,10.0,5.0,Strong,Adequate
+T6,Landsat LST mapping,Tier C — Thermal Remote Sensing Core,gemini 3.5 flash,With_RAG,10.0,5.0,Strong,Adequate
+T6,Landsat LST mapping,Tier C — Thermal Remote Sensing Core,gemma-4-31b-it,With_RAG,6.0,5.0,Partial,Adequate
+T7,Day–night LST difference,Tier C — Thermal Remote Sensing Core,claude-haiku-4-5,With_RAG,8.0,4.0,Partial,Adequate
+T7,Day–night LST difference,Tier C — Thermal Remote Sensing Core,claude-sonnet-4-6,With_RAG,8.0,6.0,Partial,Strong
+T7,Day–night LST difference,Tier C — Thermal Remote Sensing Core,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T7,Day–night LST difference,Tier C — Thermal Remote Sensing Core,gemini 3.5 flash,With_RAG,9.0,6.0,Strong,Strong
+T7,Day–night LST difference,Tier C — Thermal Remote Sensing Core,gemma-4-31b-it,With_RAG,9.0,5.0,Strong,Adequate
+T8,LST anomaly versus baseline,Tier C — Thermal Remote Sensing Core,claude-haiku-4-5,With_RAG,8.0,5.0,Partial,Adequate
+T8,LST anomaly versus baseline,Tier C — Thermal Remote Sensing Core,claude-sonnet-4-6,With_RAG,9.0,6.0,Strong,Strong
+T8,LST anomaly versus baseline,Tier C — Thermal Remote Sensing Core,gemini 3.1 pro,With_RAG,10.0,6.0,Strong,Strong
+T8,LST anomaly versus baseline,Tier C — Thermal Remote Sensing Core,gemini 3.5 flash,With_RAG,10.0,6.0,Strong,Strong
+T8,LST anomaly versus baseline,Tier C — Thermal Remote Sensing Core,gemma-4-31b-it,With_RAG,7.0,4.0,Partial,Adequate
+T9,Future heat exposure scenario,Tier D — Urban Heat / Applied Analysis,claude-haiku-4-5,With_RAG,3.0,1.0,Poor,Poor
+T9,Future heat exposure scenario,Tier D — Urban Heat / Applied Analysis,claude-sonnet-4-6,With_RAG,8.0,5.0,Partial,Adequate
+T9,Future heat exposure scenario,Tier D — Urban Heat / Applied Analysis,gemini 3.1 pro,With_RAG,9.0,5.0,Strong,Adequate
+T9,Future heat exposure scenario,Tier D — Urban Heat / Applied Analysis,gemini 3.5 flash,With_RAG,7.0,5.0,Partial,Adequate
+T9,Future heat exposure scenario,Tier D — Urban Heat / Applied Analysis,gemma-4-31b-it,With_RAG,8.0,5.0,Partial,Adequate

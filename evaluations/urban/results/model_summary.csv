@@ -1,0 +1,6 @@
+model,mean_rubric_a_With_RAG,median_rubric_a_With_RAG,std_rubric_a_With_RAG,mean_rubric_b_With_RAG,median_rubric_b_With_RAG,std_rubric_b_With_RAG,success_rate_With_RAG,strong_a_rate_With_RAG
+claude-haiku-4-5,7.5833,8.0000,1.9752,4.1667,4.0000,1.2673,0.6667,0.2500
+claude-sonnet-4-6,9.0833,9.0000,0.9962,5.4167,5.0000,0.5149,0.8333,0.7500
+gemini 3.1 pro,9.4167,10.0000,0.9003,5.7500,6.0000,0.4523,0.9167,0.9167
+gemini 3.5 flash,9.5000,10.0000,1.0000,5.7500,6.0000,0.4523,0.8333,0.8333
+gemma-4-31b-it,7.3333,7.0000,1.7753,4.1667,5.0000,1.4668,0.7500,0.3333
