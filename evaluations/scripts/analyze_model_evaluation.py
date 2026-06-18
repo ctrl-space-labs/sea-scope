@@ -61,6 +61,9 @@ matplotlib.rcParams.update(
     }
 )
 
+# Export at high DPI for sharp print/screen; set physical size (cm) when placing in the paper.
+EXPORT_DPI = 300
+
 # ---------------------------------------------------------------------------
 # Colour palette (consistent across all figures)
 # ---------------------------------------------------------------------------
@@ -378,9 +381,25 @@ def build_summary(df: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 
-def save_fig(fig: plt.Figure, name: str) -> None:
+def save_fig(
+    fig: plt.Figure,
+    name: str,
+    *,
+    dpi: float | None = None,
+    target_width_px: int | None = None,
+) -> None:
     path = RESULTS_DIR / name
-    fig.savefig(path, bbox_inches="tight")
+    w, _ = fig.get_size_inches()
+    if dpi is None:
+        dpi = (target_width_px / w) if target_width_px else EXPORT_DPI
+    fig.savefig(
+        path,
+        dpi=dpi,
+        bbox_inches="tight",
+        pad_inches=0.05,
+        facecolor="white",
+        edgecolor="none",
+    )
     plt.close(fig)
     print(f"[OK] {name} → {path}")
 
@@ -486,10 +505,7 @@ def fig_B_rag_delta(summary: pd.DataFrame, order: list[str]) -> None:
         pad=12,
     )
 
-    ax.text(x_max * 0.98, len(models_sorted) - 0.4, "RAG helps", ha="right", va="top",
-            fontsize=9, color="#2E7D32", style="italic")
-    ax.text(x_min * 0.98, -0.35, "RAG hurts", ha="left", va="bottom",
-            fontsize=9, color="#C62828", style="italic")
+    
 
     legend_els = [
         Patch(facecolor=TIER_COLORS[t], label=f"{t} models")
@@ -612,6 +628,16 @@ def fig_E_efficiency_vs_quality(df: pd.DataFrame) -> None:
         HAS_ADJUSTTEXT = True
     except ImportError:
         HAS_ADJUSTTEXT = False
+        print("[WARN] adjustText not installed; using basic label repulsion for efficiency plot.")
+
+    # fig_B is 11×8 in with the same base pt sizes; scale up so text matches when both
+    # figures are placed at the same width in the paper (14 in canvas compresses more).
+    _fs = 14 / 11
+    fs_title = 11 * _fs
+    fs_label = 10 * _fs
+    fs_tick = 9 * _fs
+    fs_legend = 9 * _fs
+    fs_annot = 9 * _fs  # match fig_B y-axis model names (9 pt)
 
     grp = (
         df.groupby(["model", "rag_status"])
@@ -624,7 +650,109 @@ def fig_E_efficiency_vs_quality(df: pd.DataFrame) -> None:
     # Circle = With RAG, triangle-up = Without RAG
     MARKERS = {"With_RAG": "o", "Without_RAG": "^"}
 
+    # Trend lines first (under everything).
+    for rag in ["With_RAG", "Without_RAG"]:
+        sub = grp[grp["rag_status"] == rag]
+        if len(sub) >= 2:
+            x = sub["mean_msg"].to_numpy()
+            y = sub["mean_eval"].to_numpy()
+            slope, intercept = np.polyfit(x, y, 1)
+            x_line = np.linspace(x.min(), x.max(), 100)
+            y_line = slope * x_line + intercept
+            ax.plot(
+                x_line,
+                y_line,
+                color=RAG_COLORS[rag],
+                linewidth=2.0,
+                alpha=0.85,
+                zorder=1,
+            )
+
+    # Labels start on each point; adjustText repels them and draws leader lines.
     texts = []
+    anchor_x: list[float] = []
+    anchor_y: list[float] = []
+    label_strings: list[str] = []
+    for rag in ["With_RAG", "Without_RAG"]:
+        sub = grp[grp["rag_status"] == rag]
+        rag_tag = "RAG" if rag == "With_RAG" else "No RAG"
+        for _, row in sub.iterrows():
+            x, y = row["mean_msg"], row["mean_eval"]
+            anchor_x.append(x)
+            anchor_y.append(y)
+            short = _shorten_model_name(row["model"])
+            label_strings.append(f"{short} ({rag_tag})")
+            t = ax.text(
+                x,
+                y,
+                label_strings[-1],
+                fontsize=fs_annot,
+                color="dimgray",
+                ha="center",
+                va="center",
+                zorder=3,
+                bbox=dict(
+                    boxstyle="round,pad=0.2",
+                    facecolor="white",
+                    edgecolor="lightgray",
+                    alpha=0.92,
+                    linewidth=0.5,
+                ),
+            )
+            texts.append(t)
+
+    leader_props = dict(
+        arrowstyle="-",
+        color="#B0BEC5",
+        lw=0.8,
+        shrinkA=4,
+        shrinkB=5,
+    )
+
+    if HAS_ADJUSTTEXT:
+        adjust_text(
+            texts,
+            x=anchor_x,
+            y=anchor_y,
+            ax=ax,
+            arrowprops=leader_props,
+            expand=(1.8, 2.0),
+            force_text=(1.2, 1.5),
+            force_points=(2.5, 3.0),
+            min_arrow_len=1,
+            ensure_inside_axes=True,
+            expand_axes=False,
+            iter_lim=800,
+        )
+    else:
+        x_range = grp["mean_msg"].max() - grp["mean_msg"].min() or 1.0
+        y_range = grp["mean_eval"].max() - grp["mean_eval"].min() or 1.0
+        offsets = [(0.25, 0.35)] * len(texts)
+        points = list(zip(anchor_x, anchor_y))
+        offsets = _repel_labels(points, offsets, x_range, y_range, iterations=80)
+        for t, (x, y), label, (dx, dy) in zip(texts, points, label_strings, offsets):
+            t.remove()
+            ax.annotate(
+                label,
+                xy=(x, y),
+                xytext=(x + dx, y + dy),
+                textcoords="data",
+                fontsize=fs_annot,
+                color="dimgray",
+                ha="left",
+                va="bottom",
+                zorder=3,
+                bbox=dict(
+                    boxstyle="round,pad=0.2",
+                    facecolor="white",
+                    edgecolor="lightgray",
+                    alpha=0.92,
+                    linewidth=0.5,
+                ),
+                arrowprops=leader_props,
+            )
+
+    # Draw markers last so they sit on top of label boxes and leader lines.
     for rag in ["With_RAG", "Without_RAG"]:
         sub = grp[grp["rag_status"] == rag]
         ax.scatter(
@@ -634,45 +762,23 @@ def fig_E_efficiency_vs_quality(df: pd.DataFrame) -> None:
             color=RAG_COLORS[rag],
             marker=MARKERS[rag],
             s=110,
-            zorder=3,
+            zorder=10,
             alpha=0.90,
             edgecolors="white",
             linewidths=0.8,
         )
-        rag_tag = "RAG" if rag == "With_RAG" else "No RAG"
-        for _, row in sub.iterrows():
-            short = _shorten_model_name(row["model"])
-            t = ax.text(
-                row["mean_msg"],
-                row["mean_eval"],
-                f"{short} ({rag_tag})",
-                fontsize=7.5,
-                color="dimgray",
-                bbox=dict(boxstyle="round,pad=0.2", facecolor="white",
-                          edgecolor="lightgray", alpha=0.85, linewidth=0.5),
-            )
-            texts.append(t)
 
-    if HAS_ADJUSTTEXT:
-        adjust_text(
-            texts,
-            ax=ax,
-            arrowprops=dict(arrowstyle="-", color="lightgray", lw=0.7),
-            expand=(1.4, 1.6),
-            force_text=(0.6, 0.8),
-            force_points=(0.3, 0.4),
-            min_arrow_len=4,
-        )
-    else:
-        # Fallback: nudge texts away from their anchor points
-        for t in texts:
-            t.set_position((t.get_position()[0] + 0.1, t.get_position()[1] + 0.15))
+    fig.set_size_inches(14, 9)
 
-    ax.set_xlabel("Mean Number of Messages (lower = more efficient)", fontsize=10)
-    ax.set_ylabel("Mean Evaluation Score (/10)", fontsize=10)
-    ax.set_title("Efficiency vs Quality: Mean Messages vs Mean Evaluation Score", fontsize=11)
+    ax.set_xlabel("Mean Number of Messages (lower = more efficient)", fontsize=fs_label)
+    ax.set_ylabel("Mean Evaluation Score (/10)", fontsize=fs_label)
+    ax.set_title(
+        "Efficiency vs Quality: Mean Messages vs Mean Evaluation Score",
+        fontsize=fs_title,
+        pad=12,
+    )
+    ax.tick_params(axis="both", labelsize=fs_tick)
 
-    # Legend: RAG colour + marker shape
     from matplotlib.lines import Line2D
     legend_els = [
         Line2D([0], [0], marker="o", color="w", markerfacecolor=RAG_COLORS["With_RAG"],
@@ -680,11 +786,16 @@ def fig_E_efficiency_vs_quality(df: pd.DataFrame) -> None:
         Line2D([0], [0], marker="^", color="w", markerfacecolor=RAG_COLORS["Without_RAG"],
                markersize=9, label="Without RAG  (▲)"),
     ]
-    ax.legend(handles=legend_els, fontsize=9)
+    ax.legend(handles=legend_els, fontsize=fs_legend)
     ax.set_ylim(-0.5, 11.5)
     ax.grid(linestyle="--", alpha=0.35)
     fig.tight_layout()
-    save_fig(fig, "efficiency_vs_quality.png")
+    # 14×9 in @ EXPORT_DPI exports ~4140 px wide; scale DPI to target 3540 px width.
+    save_fig(
+        fig,
+        "efficiency_vs_quality.png",
+        dpi=EXPORT_DPI * 3540 / 4140,
+    )
 
 
 # ---------------------------------------------------------------------------
