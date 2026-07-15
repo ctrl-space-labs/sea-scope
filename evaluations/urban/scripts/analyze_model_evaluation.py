@@ -70,7 +70,7 @@ matplotlib.rcParams.update(
 # ---------------------------------------------------------------------------
 
 RAG_COLORS = {"With_RAG": "#2196F3", "Without_RAG": "#FF7043"}
-RAG_LABELS = {"With_RAG": "With RAG (ON)", "Without_RAG": "Without RAG (OFF)"}
+RAG_LABELS = {"With_RAG": "With RAG", "Without_RAG": "Without RAG"}
 
 RUBRIC_A_MAX = 10
 RUBRIC_B_MAX = 6
@@ -315,13 +315,6 @@ def validate_and_print(df: pd.DataFrame) -> None:
             f"mean={grp['rubric_b_total'].mean():5.2f} | values={vals}"
         )
 
-    rag_modes = df["rag_status"].dropna().unique().tolist()
-    if "Without_RAG" not in rag_modes:
-        print(
-            "\n[WARN] No Without-RAG (OFF) runs found yet. "
-            "RAG comparison figures will be skipped until OFF rows are scored."
-        )
-
     print("=" * 60)
 
 
@@ -468,7 +461,6 @@ def grouped_bar(
             x,
             rag_values,
             0.6,
-            label=RAG_LABELS["With_RAG"],
             color=RAG_COLORS["With_RAG"],
             alpha=0.85,
         )
@@ -476,7 +468,8 @@ def grouped_bar(
     ax.set_xticklabels(models, rotation=35, ha="right")
     ax.set_ylabel(ylabel)
     ax.set_title(title)
-    ax.legend()
+    if no_rag_values is not None:
+        ax.legend()
     if ylim:
         ax.set_ylim(*ylim)
     ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=False, nbins=6))
@@ -507,8 +500,6 @@ def fig_mean_rubric_a(summary: pd.DataFrame, order: list[str], compare_rag: bool
     )
     fig, ax = plt.subplots(figsize=(11, 5))
     title = "Mean Rubric A Score by Model (Code & Execution Quality)"
-    if not compare_rag:
-        title += "\n(RAG ON only — OFF runs not yet scored)"
     grouped_bar(ax, order, rag_vals, no_vals, "Mean Rubric A (/10)", title, ylim=(0, 10.5))
     ax.axhline(9, color="grey", linestyle="--", linewidth=0.8, label="Strong (≥9)")
     ax.axhline(5, color="grey", linestyle=":", linewidth=0.8, label="Partial (≥5)")
@@ -523,8 +514,6 @@ def fig_mean_rubric_b(summary: pd.DataFrame, order: list[str], compare_rag: bool
     )
     fig, ax = plt.subplots(figsize=(11, 5))
     title = "Mean Rubric B Score by Model (Interpretation Quality)"
-    if not compare_rag:
-        title += "\n(RAG ON only — OFF runs not yet scored)"
     grouped_bar(ax, order, rag_vals, no_vals, "Mean Rubric B (/6)", title, ylim=(0, 6.5))
     ax.axhline(6, color="grey", linestyle="--", linewidth=0.8, label="Strong (6)")
     ax.axhline(3, color="grey", linestyle=":", linewidth=0.8, label="Adequate (≥3)")
@@ -722,7 +711,7 @@ def fig_tier_comparison(df: pd.DataFrame, order: list[str]) -> None:
     ax.set_xticks(x)
     ax.set_xticklabels([TIER_SHORT.get(t, t) for t in TIER_ORDER])
     ax.set_ylabel("Mean Rubric A (/10)")
-    ax.set_title("Mean Rubric A by Task Tier and Model (RAG ON)")
+    ax.set_title("Mean Rubric A by Task Tier and Model")
     ax.set_ylim(0, 10.5)
     ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
     ax.axhline(9, color="grey", linestyle="--", alpha=0.5)
@@ -773,7 +762,7 @@ def fig_sub_rubric_breakdown(df: pd.DataFrame, order: list[str]) -> None:
     axes[1].set_ylim(0, 2.2)
 
     axes[1].legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
-    fig.suptitle("Sub-rubric Breakdown by Model (RAG ON)", fontsize=12)
+    fig.suptitle("Sub-rubric Breakdown by Model", fontsize=12)
     fig.tight_layout()
     save_fig(fig, "sub_rubric_breakdown_by_model.png")
 
@@ -824,7 +813,7 @@ def fig_per_task_ranking(df: pd.DataFrame) -> None:
     for ax in axes_flat[n_tasks:]:
         ax.set_visible(False)
 
-    fig.suptitle("Model Ranking per Task (Rubric A, RAG ON)", fontsize=12)
+    fig.suptitle("Model Ranking per Task (Rubric A)", fontsize=12)
     fig.tight_layout()
     save_fig(fig, "per_task_ranking.png")
 
@@ -937,7 +926,7 @@ def main() -> None:
     for m in sorted(df["model"].unique()):
         print(f"                    • {m}")
     print(f"  Tasks           : {df['task_id'].nunique()}")
-    print(f"  RAG comparison  : {'Yes' if compare_rag else 'No (ON only)'}")
+    print(f"  RAG comparison  : {'Yes' if compare_rag else 'No'}")
     print(f"  Figures saved to: {RESULTS_DIR}")
     print(f"  Summary CSV     : {RESULTS_DIR / 'model_summary.csv'}")
     print("=" * 60 + "\n")
