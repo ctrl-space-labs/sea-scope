@@ -77,9 +77,14 @@ RAG_LABELS = {"With_RAG": "With RAG", "Without_RAG": "Without RAG"}
 
 
 def find_excel_file(directory: Path) -> Path:
-    files = sorted(directory.glob("*.xlsx"))
+    # The evaluator-reliability workbook has a different, two-row-header
+    # schema and is handled by analyze_evaluator_reliability.py.
+    files = sorted(
+        path for path in directory.glob("*.xlsx")
+        if "v2" not in path.stem.lower()
+    )
     if not files:
-        sys.exit(f"ERROR: No .xlsx file found in {directory}")
+        sys.exit(f"ERROR: No non-v2 .xlsx file found in {directory}")
     chosen = files[0]
     if len(files) > 1:
         print(f"[INFO] Multiple .xlsx files found; using: {chosen.name}")

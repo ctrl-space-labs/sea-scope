@@ -38,7 +38,7 @@ The raw data lives in a single Excel workbook (`SeaScope - Model Evaluation.xlsx
 4. **Validation**: Before any aggregation, raw values, sums, and counts are printed per model per condition to catch accidental averaging bugs. One genuine coincidence was detected: **Claude Haiku 4.5** has an identical mean score (5.71) in both conditions, verified by inspecting its 7 individual values in each group.
 5. **Summary statistics**: Mean, median, and standard deviation of evaluation scores; mean message count; and success rate are computed by grouping on `(model, rag_status)` — never collapsing across conditions first.
 
-All figures are saved to `results/` as 150 dpi PNGs. The full per-model summary is in `results/model_summary.csv`.
+All figures are saved to `results/` as 300 dpi PNGs. The full per-model summary is in `results/model_summary.csv`.
 
 ---
 
@@ -174,7 +174,66 @@ The scatter of individual evaluation scores against the binary succeed/fail outc
 
 ---
 
-## 4. Model-Level Summary
+## 4. Evaluator Reliability & Model Consistency — Gemini 3 Flash Deep Dive
+
+For the paper's methodology, one model — **Gemini 3 Flash** — was independently re-evaluated by a **2nd evaluator**, who ran each of the 7 case studies **5 additional times** under both RAG conditions (`SeaScope - Model Evaluation-v2.xlsx`). This gives, for each of the 14 (case study × RAG condition) combinations, 1 score from Evaluator 1 (the original single run) and 5 independent scores from Evaluator 2 — letting us separate two questions that a single-run, single-rater study cannot answer:
+
+- **How much does the model's own output vary across repeated runs?** (internal / test-retest consistency)
+- **How much do the two evaluators agree, given that they scored different runs of the same task?** (inter-evaluator overlap)
+
+Full statistics: `evaluations/results/evaluator_reliability_by_group.csv` (per-group) and `evaluations/results/evaluator_reliability_overall.csv` (pooled). Regenerate with `python evaluations/scripts/analyze_evaluator_reliability.py`.
+
+### 4.1 — Internal Consistency: How Stable Is Gemini 3 Flash Across Repeated Runs?
+
+![Repeated-run consistency](results/evaluator_repeated_runs_by_case_study.png)
+
+Across the 5 independent reruns per case study, Gemini 3 Flash's evaluation score has a **mean within-group standard deviation of 1.39 points** (0–10 scale). The figure contains only these reruns: each dot is one run, and each box summarizes the five runs for that case study and condition.
+
+Most case studies cluster tightly (e.g., *Ships Larnaca* with RAG: scores 9–10, SD = 0.55; *Air quality cyprus* with RAG: SD = 0.55). One case study is a clear outlier: *Trieste plastics* without RAG ranges from 0 to 9 across the 5 runs (SD = 4.55) — three of the five runs failed outright while two succeeded with high scores. This bimodal result is the main source of the higher no-RAG variability.
+
+#### RAG vs. no RAG across the five reruns
+
+![RAG vs no-RAG five-run summary](results/evaluator_rag_vs_norag_summary.png)
+
+The same 7 case studies were evaluated in both conditions, so the comparison is paired by case study:
+
+| Five-run summary | With RAG | Without RAG | RAG − no RAG | Paired Wilcoxon p |
+|---|---:|---:|---:|---:|
+| Mean evaluation score | **8.34** | 8.00 | +0.34 | 0.453 |
+| Mean within-case SD | **1.35** | 1.43 | −0.08 | 0.813 |
+| Mean within-case CV | **0.174** | 0.245 | −0.071 | 0.813 |
+
+RAG is associated with **slightly higher mean quality and slightly lower run-to-run variability**. Both the mean SD and mean CV are lower with RAG, though none of these paired differences is statistically significant with only 7 case studies.
+
+### 4.2 — Inter-Evaluator Overlap: Do the Two Evaluators Agree?
+
+![Bland-Altman agreement](results/evaluator_bland_altman.png)
+![Inter-evaluator agreement scatter](results/evaluator_agreement_scatter.png)
+
+Comparing Evaluator 1's score against Evaluator 2's mean-of-5 score (rounded to the nearest whole number on the 0–10 scale) for the same 14 (case study × condition) combinations:
+
+| Metric | Value | Interpretation |
+|---|---|---|
+| ICC(2,1) — absolute agreement | **0.47** | Fair-to-moderate agreement by conventional ICC thresholds (poor < 0.50, moderate 0.50–0.75, good 0.75–0.90) |
+| ICC(3,1) — consistency only | 0.46 | Nearly identical to ICC(2,1) — disagreement is not driven by a systematic bias between evaluators |
+| Pearson r / Spearman ρ | 0.49 / 0.44 | Moderate positive association (neither reaches p < 0.05 after rounding) |
+| Mean bias (Evaluator 1 − Evaluator 2) | +0.21 | Small — paired t-test p = 0.53, Wilcoxon p = 0.63: no evidence of systematic bias |
+| % of groups where Evaluator 1 falls within Evaluator 2's 5-run range | 92.9% (13/14) | |
+| % of groups where Evaluator 1 falls within ±1 SD of Evaluator 2's mean | 78.6% (11/14) | |
+
+**What ICC means here.** The Intraclass Correlation Coefficient measures how much of the score variance is shared across the two evaluators rather than being evaluator-specific. ICC(2,1) asks whether the two evaluators give **the same absolute scores**; ICC(3,1) asks whether they **rank cases similarly**, even if one is systematically higher. Values near 1 mean near-perfect agreement; values near 0 mean agreement is no better than chance. Our ICC(2,1) ≈ 0.47 and ICC(3,1) ≈ 0.46 therefore indicate fair-to-moderate agreement: the evaluators move in the same direction, but individual case scores can still differ by about 1–2 points.
+
+**Reading these together:** the two evaluators show no systematic bias (mean bias ≈ 0, both significance tests non-significant). In the overwhelming majority of cases Evaluator 1's score falls inside Evaluator 2's five-run spread. The Bland–Altman plot (a standard agreement diagnostic: Bland & Altman, *Lancet*, 1986) shows all 14 differences within the 95% limits of agreement (−2.24 to +2.67), i.e. mean difference ± 1.96 × SD of the differences — the band where ~95% of Evaluator 1 − Evaluator 2 gaps are expected to fall.
+
+The inter-evaluator analysis focuses on the **0–10 evaluation scores**. ICC is the primary agreement statistic; Pearson/Spearman correlation and Bland–Altman bias are supporting diagnostics. Unweighted Cohen's κ is not appropriate for these scores: it treats any mismatch as equally severe (e.g., 7 vs 8 the same as 7 vs 0) and is designed for categorical labels, not an ordinal 0–10 scale. A quadratic weighted κ on rounded integers is possible in principle, but is closely related to ICC and adds little beyond what ICC already reports.
+
+### 4.3 — Methodological Caveat for the Paper
+
+The 5 repeated runs are **5 independent model conversations**, each freshly scored by Evaluator 2 — not 5 ratings of one fixed transcript. This means the variability reported in §4.1 mixes genuine model output stochasticity with any scoring subjectivity from Evaluator 2 alone, and the "overlap" in §4.2 measures agreement between "Evaluator 1 scoring one run" and "Evaluator 2's average tendency across five different runs," not classical same-item inter-rater reliability. The paper's methods section should state this explicitly: the design measures whether the two evaluators reach similar conclusions about the model's typical performance, not whether they would give the identical score to the identical output.
+
+---
+
+## 5. Model-Level Summary
 
 | Model | Mean (With RAG) | Mean (Without RAG) | Δ | Std (With RAG) | Std (Without RAG) | Success (With RAG) | Success (Without RAG) |
 |---|---|---|---|---|---|---|---|
@@ -194,7 +253,7 @@ The scatter of individual evaluation scores against the binary succeed/fail outc
 
 ---
 
-## 5. Conclusions
+## 6. Conclusions
 
 **1. RAG is not universally beneficial — it depends on model capacity.**
 Retrieval-Augmented Generation helps models capable enough to integrate retrieved context into structured reasoning. For frontier and mid-size models, RAG reliably raises both quality and success rate.
@@ -217,14 +276,20 @@ Qwen3 32B scored 0.00 with RAG across all 7 case studies. GPT OSS 20B and 120B s
 
 ---
 
-## 6. Reproducibility
+## 7. Reproducibility
 
 All results can be regenerated from scratch:
 
 ```bash
 conda activate sea-scope-eval
+
+# Cross-model RAG vs NO-RAG comparison (Sections 1-3, 5-6)
 python evaluations/scripts/analyze_model_evaluation.py \
   --input "evaluations/SeaScope - Model Evaluation.xlsx"
+
+# Evaluator reliability & Gemini 3 Flash consistency deep-dive (Section 4)
+python evaluations/scripts/analyze_evaluator_reliability.py \
+  --input "evaluations/SeaScope - Model Evaluation-v2.xlsx"
 ```
 
 Outputs are written to `evaluations/results/`. See `evaluations/scripts/README.md` for setup instructions.

@@ -1,0 +1,47 @@
+metric,value,note
+n_groups,14.0,case_study x rag_status pairs
+n_with_rag,7.0,
+n_without_rag,7.0,
+mean_within_group_sd_eval_overall,1.3882349832340413,avg of the 5-run std within each group — headline test-retest SD
+mean_within_group_cv_eval_overall,0.20988858079196795,
+mean_within_group_sd_msg_overall,1.872285690511226,
+mean_within_group_range_eval_overall,3.2142857142857144,
+mean_within_group_sd_eval_with_rag,1.3469394665267698,avg of the 5-run std within each group — headline test-retest SD
+mean_within_group_cv_eval_with_rag,0.17427831201228924,
+mean_within_group_sd_msg_with_rag,1.711678510338743,
+mean_within_group_range_eval_with_rag,3.2857142857142856,
+mean_within_group_sd_eval_without_rag,1.4295304999413119,avg of the 5-run std within each group — headline test-retest SD
+mean_within_group_cv_eval_without_rag,0.24549884957164664,
+mean_within_group_sd_msg_without_rag,2.0328928706837086,
+mean_within_group_range_eval_without_rag,3.142857142857143,
+mean_eval_with_rag,8.342857142857143,
+mean_eval_without_rag,8.000000000000002,
+mean_eval_delta_rag_minus_no_rag,0.34285714285714314,
+mean_eval_paired_ttest_p,0.5761171565608239,
+mean_eval_wilcoxon_p,0.453125,
+within_group_sd_eval_with_rag,1.3469394665267698,
+within_group_sd_eval_without_rag,1.4295304999413119,
+within_group_sd_eval_delta_rag_minus_no_rag,-0.08259103341454219,
+within_group_sd_eval_paired_ttest_p,0.9119854976243817,
+within_group_sd_eval_wilcoxon_p,0.8125,
+within_group_cv_eval_with_rag,0.17427831201228924,
+within_group_cv_eval_without_rag,0.24549884957164664,
+within_group_cv_eval_delta_rag_minus_no_rag,-0.07122053755935741,
+within_group_cv_eval_paired_ttest_p,0.6629859076761561,
+within_group_cv_eval_wilcoxon_p,0.8125,
+icc_2_1,0.47195357833655655,"two-way random, absolute agreement — headline inter-rater reliability (E2 mean rounded)"
+icc_3_1,0.4612476370510392,"two-way mixed, consistency-only (E2 mean rounded)"
+pearson_r,0.48675549685827363,
+pearson_p,0.07754425435529802,
+spearman_rho,0.4431595019921836,
+spearman_p,0.11250131628633779,
+mean_bias_eval1_minus_eval2mean,0.21428571428571427,Evaluator1 − rounded Evaluator2 mean
+std_bias,1.2513728724621074,
+bland_altman_upper_loa,2.666976544311445,
+bland_altman_lower_loa,-2.238405115740016,
+paired_ttest_stat,0.6407232755171874,
+paired_ttest_p,0.532834834328507,
+wilcoxon_stat,31.5,
+wilcoxon_p,0.6349431457156098,
+pct_within_eval2_range,0.9285714285714286,
+pct_within_1sd,0.7857142857142857,
